@@ -1,0 +1,63 @@
+# LLM config template — API keys injected from k8s secrets at deploy time.
+# The `input_modalities` field on the gemma entry is read by the
+# voice-input-explore branch of geo-agent to decide whether to show the
+# mic button in the chat UI.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: voice-demo-config
+data:
+  config.template.json: |
+    {
+        "mcp_server_url": "${MCP_SERVER_URL}",
+        "mcp_auth_token": "${MCP_AUTH_TOKEN}",
+        "llm_model": "gemma",
+        "llm_models": [
+            {
+                "value": "gemma",
+                "label": "NRP Gemma (voice)",
+                "endpoint": "${LLM_ENDPOINT}",
+                "api_key": "${PROXY_KEY}",
+                "input_modalities": ["text", "audio"]
+            },
+            {
+                "value": "minimax-m2",
+                "label": "NRP MiniMax M2 (text only)",
+                "endpoint": "${LLM_ENDPOINT}",
+                "api_key": "${PROXY_KEY}"
+            }
+        ]
+    }
+
+---
+# Nginx configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: voice-demo-nginx
+data:
+  nginx.conf: |
+    server {
+        listen 80;
+        server_name _;
+
+        root /usr/share/nginx/html;
+        index index.html;
+
+        add_header Access-Control-Allow-Origin *;
+        add_header Access-Control-Allow-Methods "GET, POST, OPTIONS";
+        add_header Access-Control-Allow-Headers "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Accept";
+
+        location / {
+            try_files $uri $uri/ /index.html;
+            add_header Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0";
+            add_header Pragma "no-cache";
+            add_header Expires "0";
+        }
+
+        location /health {
+            access_log off;
+            return 200 "healthy\n";
+            add_header Content-Type text/plain;
+        }
+    }

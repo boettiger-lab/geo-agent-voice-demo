@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: voice-demo
+  labels:
+    app: voice-demo
+spec:
+  type: ClusterIP
+  selector:
+    app: voice-demo
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      name: http
