@@ -8,9 +8,13 @@
 
     <!--
         Demo app for the optional voice-input layer (refs boettiger-lab/geo-agent#131).
-        Pinned to the `voice-input-explore` branch of the core library so the
-        MediaRecorder-based mic button and multimodal `input_audio` plumbing
-        are available. Switch to @main or a tagged release once the feature merges.
+
+        Pinned to commit 3a2582e of boettiger-lab/geo-agent (the HEAD of the
+        voice-input-explore branch at time of deploy). We use an explicit
+        commit SHA rather than @voice-input-explore because jsDelivr returns
+        404 for non-default branch refs until its API resolves them, and SHA
+        pins are always immediately resolvable. Swap to @main or a tagged
+        release once the voice-input feature merges.
     -->
     <script type="importmap">
     {
@@ -40,8 +44,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
 
     <!-- Core styles (voice-input-explore branch) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/boettiger-lab/geo-agent@voice-input-explore/app/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/boettiger-lab/geo-agent@voice-input-explore/app/chat.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/boettiger-lab/geo-agent@3a2582e87c36f39fabaf1d1ab42ccc5a85085ba2/app/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/boettiger-lab/geo-agent@3a2582e87c36f39fabaf1d1ab42ccc5a85085ba2/app/chat.css">
 </head>
 
 <body>
@@ -71,7 +75,7 @@
     </div>
 
     <!-- Boot from CDN (voice-input-explore branch) -->
-    <script type="module" src="https://cdn.jsdelivr.net/gh/boettiger-lab/geo-agent@voice-input-explore/app/main.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/boettiger-lab/geo-agent@3a2582e87c36f39fabaf1d1ab42ccc5a85085ba2/app/main.js"></script>
 </body>
 
 </html>
