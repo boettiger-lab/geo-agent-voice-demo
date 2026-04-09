@@ -14,18 +14,36 @@
         "default_endpoint": "https://open-llm-proxy.nrp-nautilus.io/v1",
         "models": [
             {
-                "value": "gemma",
-                "label": "NRP Gemma (voice)",
-                "input_modalities": ["text", "audio"]
+                "value": "minimax-m2",
+                "label": "NRP MiniMax M2"
             },
             {
-                "value": "minimax-m2",
-                "label": "NRP MiniMax M2 (text only)"
+                "value": "glm-4.7",
+                "label": "NRP GLM-4.7"
+            },
+            {
+                "value": "qwen3",
+                "label": "NRP Qwen3"
+            },
+            {
+                "value": "kimi",
+                "label": "NRP Kimi"
+            },
+            {
+                "value": "gpt-oss",
+                "label": "NRP GPT-OSS"
+            },
+            {
+                "value": "gemma",
+                "label": "NRP Gemma (31B, text)"
             }
-        ]
+        ],
+        "transcription_model": {
+            "value": "gemma-4-e4b"
+        }
     },
     "welcome": {
-        "message": "Voice-input demo. Select **NRP Gemma (voice)** and a 🎤 button will appear next to Send. Click it to record, click again to stop and send. Examples:",
+        "message": "Voice-input demo. Click the 🎤 button to record, click again to stop. The transcription will appear in the input field — review, edit if needed, and press Send. Voice works with any selected agent model; transcription is handled separately by NRP gemma-4-e4b (audio-capable). Examples:",
         "examples": [
             "Show only GAP Status 1 lands on the map.",
             "Which states have the most PAD-US fee-protected land?",
