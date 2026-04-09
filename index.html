@@ -9,12 +9,11 @@
     <!--
         Demo app for the optional voice-input layer (refs boettiger-lab/geo-agent#131).
 
-        Pinned to commit 3a2582e of boettiger-lab/geo-agent (the HEAD of the
-        voice-input-explore branch at time of deploy). We use an explicit
-        commit SHA rather than @voice-input-explore because jsDelivr returns
-        404 for non-default branch refs until its API resolves them, and SHA
-        pins are always immediately resolvable. Swap to @main or a tagged
-        release once the voice-input feature merges.
+        Pinned to commit 26b1473 of boettiger-lab/geo-agent (main branch).
+        This commit includes the webm→WAV transcode fix (#135) needed for
+        voice input to work correctly with the gemma4 endpoint. We use an
+        explicit commit SHA rather than @main because jsDelivr CDN caches
+        branch refs and SHA pins are always immediately resolvable.
     -->
     <script type="importmap">
     {
@@ -43,9 +42,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
 
-    <!-- Core styles (voice-input-explore branch) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/boettiger-lab/geo-agent@3a2582e87c36f39fabaf1d1ab42ccc5a85085ba2/app/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/boettiger-lab/geo-agent@3a2582e87c36f39fabaf1d1ab42ccc5a85085ba2/app/chat.css">
+    <!-- Core styles (main branch, pinned to voice bugfix commit) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/boettiger-lab/geo-agent@26b14734fabd4f413f8dbbbf978ab4edfba96416/app/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/boettiger-lab/geo-agent@26b14734fabd4f413f8dbbbf978ab4edfba96416/app/chat.css">
 </head>
 
 <body>
@@ -74,8 +73,8 @@
         </div>
     </div>
 
-    <!-- Boot from CDN (voice-input-explore branch) -->
-    <script type="module" src="https://cdn.jsdelivr.net/gh/boettiger-lab/geo-agent@3a2582e87c36f39fabaf1d1ab42ccc5a85085ba2/app/main.js"></script>
+    <!-- Boot from CDN (main branch, pinned to voice bugfix commit) -->
+    <script type="module" src="https://cdn.jsdelivr.net/gh/boettiger-lab/geo-agent@26b14734fabd4f413f8dbbbf978ab4edfba96416/app/main.js"></script>
 </body>
 
 </html>
