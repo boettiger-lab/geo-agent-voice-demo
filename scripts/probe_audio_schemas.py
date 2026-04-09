@@ -26,12 +26,24 @@ TEST HISTORY
   return "malformed request: failed to parse JSON" — settled as
   non-functional against the vLLM serving stack; don't bother re-probing.
 
-**2026-04-09 — NRP `gemma-4-e4b` (= google/gemma-4-E4B-it)**
+**2026-04-09 (morning) — NRP `gemma-4-e4b` (= google/gemma-4-E4B-it)**
   NRP added an audio-tower variant. Schema A returns HTTP 500 with:
     "Please install vllm[audio] for audio support"
   → Right model (audio tower present) but the NRP vLLM image is missing
     the `vllm[audio]` extras (`librosa`, `soundfile`, etc.). Server-side
     install fix; no client changes needed. Re-run when NRP redeploys.
+
+**2026-04-09 (later) — NRP `gemma-4-e4b` via ellm AND via open-llm-proxy**
+  NRP redeployed with `vllm[audio]` extras. Schema A now returns HTTP 200
+  with a clean transcription of sample.mp3 (771 prompt / 90 completion
+  tokens for ~45s of audio) on BOTH:
+    - ENDPOINT=https://ellm.nrp-nautilus.io/v1/chat/completions (direct,
+      NRP bearer token required)
+    - ENDPOINT=https://open-llm-proxy.nrp-nautilus.io/v1/chat/completions
+      (CORS-fronted, proxy key required — what the browser uses)
+  → Voice pipeline is fully unblocked end-to-end. The geo-agent
+    voice-transcription-split branch (PR #137) uses this endpoint as the
+    default transcription backend.
 
 **2026-04-09 — Nimbus `gemma4` (= google/gemma-4-E2B-it)**
   Endpoint: https://gemma4-nimbus.carlboettiger.info/v1/chat/completions
@@ -53,16 +65,19 @@ CONCLUSIONS
    JSON parsing. Settled — do not re-test B–E.
 
 2. **Model variant**: only Gemma 4 builds with `audio_config` (E2B and
-   E4B per HF) can do audio. NRP's `gemma` 31B cannot.
+   E4B per HF) can do audio. NRP's `gemma` 31B is a text-only model — it
+   was never designed to accept audio input, not broken.
 
 3. **Server install**: `vllm[audio]` extras must be installed alongside
    the audio-capable model. Without them you get a 500 even with the
-   right model and right wire format.
+   right model and right wire format. NRP's deployment has these
+   installed as of 2026-04-09.
 
 4. **Routing**: the geo-agent webapp must reach an audio-capable endpoint
-   through a CORS-fronting proxy (the browser can't hit
-   `gemma4-nimbus.carlboettiger.info` directly). See open-llm-proxy#9 for
-   the proxy provider entry that adds `gemma4` routing.
+   through a CORS-fronting proxy (the browser can't hit `ellm.nrp` or
+   `gemma4-nimbus.carlboettiger.info` directly). `open-llm-proxy` now
+   routes `gemma-4-e4b` to NRP and `gemma4` to Nimbus — either works as
+   a transcription backend.
 """
 import base64
 import json
